@@ -79,8 +79,7 @@ class TeleopCommands:
         self.max_vel_yaw = 2.0
         self.increment_yaw = self.max_vel_yaw * 0.2
 
-        self.min_height = env.cfg.commands.height_range[0]
-        self.max_height = env.cfg.commands.height_range[1]
+        
         self.increment_height = 0.02
 
         env.commands[:] = 0.0
@@ -107,9 +106,15 @@ class TeleopCommands:
             c[:, 2] = torch.clamp(c[:, 2] - self.increment_yaw, min=-self.max_vel_yaw)
         elif action == "up":
             h = self.env.height_commands
+            self.min_height = self.env.cfg.commands.height_range[0]
+            self.max_height = self.env.cfg.commands.height_range[1]
+
             h[:, 0] = torch.clamp(h[:, 0] + self.increment_height, max=self.max_height)
         elif action == "down":
             h = self.env.height_commands
+            self.min_height = self.env.cfg.commands.height_range[0]
+            self.max_height = self.env.cfg.commands.height_range[1]
+            
             h[:, 0] = torch.clamp(h[:, 0] - self.increment_height, min=self.min_height)
         elif action == "reset":
             self.env.timed_out[:] = True
