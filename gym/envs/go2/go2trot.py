@@ -25,6 +25,9 @@ class Go2Trot(LeggedRobot):
         self.phase_frequency = torch.ones(
             self.num_envs, 1, dtype=torch.float, device=self.device
         )
+        self.height_commands = torch.zeros(
+            self.num_envs, 1, dtype=torch.float, device=self.device
+        )
         self.gait_reference = torch.zeros_like(self.dof_pos_target)
         foot_names = self.robot_layout.body_groups["feet"]
         phase_offsets = self.cfg.control.gait_phase_offsets

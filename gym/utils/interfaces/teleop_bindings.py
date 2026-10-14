@@ -79,6 +79,9 @@ class TeleopCommands:
         self.max_vel_yaw = 2.0
         self.increment_yaw = self.max_vel_yaw * 0.2
 
+        self.max_height = 1.0
+        self.increment_height = self.max_height * 0.1
+
         env.commands[:] = 0.0
         env.commands[:, 0] = 1.0  # seed forward velocity so motion is visible
         if hasattr(env.cfg, "commands"):
@@ -87,6 +90,7 @@ class TeleopCommands:
     def apply(self, action: str) -> None:
         """Apply one discrete press of ``action`` (see BINDINGS)."""
         c = self.env.commands
+        h = self.env.height_commands
         if action == "forward":
             c[:, 0] = torch.clamp(c[:, 0] + self.increment_x, max=self.max_vel_forward)
         elif action == "back":
@@ -101,6 +105,10 @@ class TeleopCommands:
             c[:, 2] = torch.clamp(c[:, 2] + self.increment_yaw, max=self.max_vel_yaw)
         elif action == "yaw_right":
             c[:, 2] = torch.clamp(c[:, 2] - self.increment_yaw, min=-self.max_vel_yaw)
+        elif action == "up":
+            h[:, 0] = torch.clamp(h[:, 0] + self.increment_height, max=self.max_height)
+        elif action == "down":
+            h[:, 0] = torch.clamp(h[:, 0] - self.increment_height, min=0.0)
         elif action == "reset":
             self.env.timed_out[:] = True
             self.env.reset()
