@@ -25,8 +25,8 @@ class Go2Trot(LeggedRobot):
         self.phase_frequency = torch.ones(
             self.num_envs, 1, dtype=torch.float, device=self.device
         )
-        self.height_commands = torch.zeros(
-            self.num_envs, 1, dtype=torch.float, device=self.device
+        self.height_commands = torch.full(
+            (self.num_envs, 1), 0.4, dtype=torch.float, device=self.device
         )
         self.gait_reference = torch.zeros_like(self.dof_pos_target)
         foot_names = self.robot_layout.body_groups["feet"]
@@ -132,6 +132,14 @@ class Go2Trot(LeggedRobot):
             torch.randn(self.num_envs, device=self.device) * self.cfg.commands.var
         )
         masked_update(self.commands[:, 0], forward, command_mask)
+
+        height = torch_rand_float(
+            self.cfg.commands.height_range[0],
+            self.cfg.commands.height_range[1],
+            shape=self.height_commands.shape,
+            device=self.device,
+        )
+        masked_update(self.height_commands, height, command_mask)
 
         if 0 in self.cfg.commands.ranges.lin_vel_x:
             # Include forward-only, rotation-only, and stopped examples.
