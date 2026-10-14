@@ -112,6 +112,7 @@ class Go2TrotRunnerCfg(Go2RunnerCfg):
             "base_ang_vel",
             "projected_gravity",
             "commands",
+            "height_commands",
             "dof_pos_obs",
             "dof_vel",
             "dof_pos_target",
