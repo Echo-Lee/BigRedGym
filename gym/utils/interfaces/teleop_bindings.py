@@ -91,7 +91,6 @@ class TeleopCommands:
     def apply(self, action: str) -> None:
         """Apply one discrete press of ``action`` (see BINDINGS)."""
         c = self.env.commands
-        h = self.env.height_commands
         if action == "forward":
             c[:, 0] = torch.clamp(c[:, 0] + self.increment_x, max=self.max_vel_forward)
         elif action == "back":
@@ -107,8 +106,10 @@ class TeleopCommands:
         elif action == "yaw_right":
             c[:, 2] = torch.clamp(c[:, 2] - self.increment_yaw, min=-self.max_vel_yaw)
         elif action == "up":
+            h = self.env.height_commands
             h[:, 0] = torch.clamp(h[:, 0] + self.increment_height, max=self.max_height)
         elif action == "down":
+            h = self.env.height_commands
             h[:, 0] = torch.clamp(h[:, 0] - self.increment_height, min=self.min_height)
         elif action == "reset":
             self.env.timed_out[:] = True

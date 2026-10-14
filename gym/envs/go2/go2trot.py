@@ -252,6 +252,11 @@ class Go2Trot(LeggedRobot):
         )
         return self._sqrdexp(ang_vel_error)
 
+    def _reward_tracking_height(self):
+        """Tracking of height commands"""
+        error = (self.base_height - self.height_commands) / self.scales["base_height"]
+        return torch.exp(-torch.square(error)).squeeze(1)
+
     def _reward_dof_vel(self):
         """Penalize dof velocities"""
         return torch.sum(self._sqrdexp(self.dof_vel / self.scales["dof_vel"]), dim=1)
