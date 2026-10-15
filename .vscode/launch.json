@@ -16,7 +16,10 @@
             "args": [
                 "--task=go2trot",
                 "--device=cpu",
-                "--num_envs=16"
+                "--num_envs=4",
+                "--max_iterations=1",
+                "--headless",
+                "--disable_wandb"
             ],
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal"

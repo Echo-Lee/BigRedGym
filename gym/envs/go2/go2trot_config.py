@@ -149,6 +149,7 @@ class Go2TrotRunnerCfg(Go2RunnerCfg):
             "dof_pos_obs",
             "dof_vel",
             "dof_pos_target",
+            "height_commands"
         ]
         normalize_obs = False
 
