@@ -171,18 +171,10 @@ class Logger:
             self.iteration_logs.log(category)
 
     def log_to_wandb(self):
-        def prepend_to_keys(prefix, dictionary):
-            return {prefix + "/" + key: val for key, val in dictionary.items()}
-
-        averages = prepend_to_keys("rewards", self.reward_logs.get_average_rewards())
-
-        category_logs = {
-            f"{category}/{key}": val
-            for category in self.iteration_logs.logs.keys()
-            for key, val in self.iteration_logs.get_all_logs(category).items()
-        }
-
-        wandb.log({**averages, **category_logs})
+        # Use the same scalar-only record as the local vitals sink.  The
+        # logger stores several values as PyTorch tensors; converting them
+        # here ensures W&B receives ordinary scalar metrics.
+        wandb.log(self.collect_vitals())
 
     def tic(self, category="default"):
         self.timer.tic(category)
