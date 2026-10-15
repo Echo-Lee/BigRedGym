@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Train Go2 (viewer)",
+            "name": "Play Go2 (viewer)",
             "type": "debugpy",
             "request": "launch",
             "python": "${workspaceFolder}/.venv/bin/python",
@@ -12,14 +12,13 @@
             "windows": {
                 "python": "${workspaceFolder}/.venv/Scripts/python.exe"
             },
-            "program": "${workspaceFolder}/scripts/train.py",
+            "program": "${workspaceFolder}/scripts/play.py",
             "args": [
                 "--task=go2trot",
                 "--device=cpu",
-                "--num_envs=4",
-                "--max_iterations=1",
-                "--headless",
-                "--disable_wandb"
+                "--experiment_name=go2trot",
+                "--load_run=Oct15_03-06-29_",
+                "--checkpoint=-1",
             ],
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal"

@@ -114,7 +114,7 @@ class TeleopCommands:
             h = self.env.height_commands
             self.min_height = self.env.cfg.commands.height_range[0]
             self.max_height = self.env.cfg.commands.height_range[1]
-            
+
             h[:, 0] = torch.clamp(h[:, 0] - self.increment_height, min=self.min_height)
         elif action == "reset":
             self.env.timed_out[:] = True
