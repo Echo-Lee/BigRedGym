@@ -157,7 +157,7 @@ class Go2TrotRunnerCfg(Go2RunnerCfg):
             class weights:
                 tracking_lin_vel = 4.0
                 tracking_ang_vel = 2.0
-                tracking_height = 2.0
+                tracking_height = 4.0
                 lin_vel_z = 0.0
                 ang_vel_xy = 0.01
                 orientation = 1.0
